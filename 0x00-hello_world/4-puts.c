@@ -2,7 +2,7 @@
 
 
 
-/**
+ /**
  *
  *  * main - Entry point
  *
@@ -12,7 +12,7 @@
  *
  */
 
-int main(void)
+ int main(void)
 
 {
 
