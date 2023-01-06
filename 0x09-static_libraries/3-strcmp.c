@@ -38,4 +38,4 @@ int _strcmp(char *s1, char *s2)
  *	s2 = tmp2;
  */
 	return (0);
-}
+}h
