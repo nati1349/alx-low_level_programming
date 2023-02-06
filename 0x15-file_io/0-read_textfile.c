@@ -1,35 +1,36 @@
-#include "holberton.h"
-
+#include "main.h"
 /**
- * read_textfile - reads a text file ans prints it to the POSIX standard output
- *
- * @filename: the path of the file
- * @letters: the number of letters it should read and print
- *
- * Return: number of letters it could read and print
- * or 0 if the file can't be opened, filename is NULL, or write fails
+ * read_textfile - reads a text file and prints it
+ * to the POSIX standard output
+ * @filename: name of the file
+ * @letters: number of letters it should read and print
+ * Return: actual number of letters it could read and print
  */
-
-ssize_t	read_textfile(const char *filename, size_t letters)
+ssize_t read_textfile(const char *filename, size_t letters)
 {
-	int fd = open(filename, O_RDONLY);
-	ssize_t bytes = 0, write_o = -1;
-	char *buf = NULL;
+	int fd, num_to_print, written_num;
+	char *buffer;
 
-	if (fd > -1 && filename)
-	{
-		buf = malloc(sizeof(char) * (letters + 1));
-		if (buf)
-		{
-			bytes = read(fd, buf, letters);
-			buf[bytes] = '\0';
-			if (bytes > -1)
-				write_o = write(STDOUT_FILENO, buf, bytes);
-			free(buf);
-			close(fd);
-			if (write_o > -1)
-				return (bytes);
-		}
-	}
-	return (0);
+	if (!filename)
+		return (0);
+
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		return (0);
+
+	buffer = malloc(letters * sizeof(char));
+	if (!buffer)
+		return (0);
+
+	/* return Number of bytes read on success */
+	num_to_print = read(fd, buffer, letters);
+	/* return Number of bytes written on success */
+	written_num = write(STDOUT_FILENO, buffer, num_to_print);
+
+	if (written_num < 0)
+		return (0);
+
+	free(buffer);
+	close(fd);
+	return (num_to_print);
 }
